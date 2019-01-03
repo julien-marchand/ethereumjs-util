@@ -87,7 +87,7 @@ export { secp256k1 }
  * @param {Number} bytes  the number of bytes the buffer should be
  * @return {Buffer}
  */
-export const zeros = function(bytes: number) {
+export const zeros = function(bytes: number): Buffer {
   return Buffer.allocUnsafe(bytes).fill(0)
 }
 
@@ -96,7 +96,7 @@ export const zeros = function(bytes: number) {
  * @method zeroAddress
  * @return {String}
  */
-export const zeroAddress = function() {
+export const zeroAddress = function(): string {
   const addressLength = 20
   const addr = zeros(addressLength)
   return bufferToHex(addr)
@@ -161,7 +161,7 @@ export const stripZeros = unpad
  * Attempts to turn a value into a `Buffer`. As input it supports `Buffer`, `String`, `Number`, null/undefined, `BN` and other objects with a `toArray()` method.
  * @param {*} v the value
  */
-export const toBuffer = function(v: any) {
+export const toBuffer = function(v: any): Buffer {
   if (!Buffer.isBuffer(v)) {
     if (Array.isArray(v)) {
       v = Buffer.from(v)
@@ -193,7 +193,7 @@ export const toBuffer = function(v: any) {
  * @return {Number}
  * @throws If the input number exceeds 53 bits.
  */
-export const bufferToInt = function(buf: Buffer) {
+export const bufferToInt = function(buf: Buffer): number {
   return new BN(toBuffer(buf)).toNumber()
 }
 
@@ -202,7 +202,7 @@ export const bufferToInt = function(buf: Buffer) {
  * @param {Buffer} buf
  * @return {String}
  */
-export const bufferToHex = function(buf: Buffer) {
+export const bufferToHex = function(buf: Buffer): string {
   buf = toBuffer(buf)
   return '0x' + buf.toString('hex')
 }
@@ -212,7 +212,7 @@ export const bufferToHex = function(buf: Buffer) {
  * @param {Buffer} num
  * @return {BN}
  */
-export const fromSigned = function(num: Buffer) {
+export const fromSigned = function(num: Buffer): BN {
   return new BN(num).fromTwos(256)
 }
 
@@ -221,7 +221,7 @@ export const fromSigned = function(num: Buffer) {
  * @param {BN} num
  * @return {Buffer}
  */
-export const toUnsigned = function(num: BN) {
+export const toUnsigned = function(num: BN): Buffer {
   return Buffer.from(num.toTwos(256).toArray())
 }
 
@@ -231,7 +231,7 @@ export const toUnsigned = function(num: BN) {
  * @param {Number} [bits=256] the Keccak width
  * @return {Buffer}
  */
-export const keccak = function(a: any, bits: number = 256) {
+export const keccak = function(a: any, bits: number = 256): Buffer {
   a = toBuffer(a)
   if (!bits) bits = 256
 
@@ -245,7 +245,7 @@ export const keccak = function(a: any, bits: number = 256) {
  * @param {Buffer|Array|String|Number} a the input data
  * @return {Buffer}
  */
-export const keccak256 = function(a: any) {
+export const keccak256 = function(a: any): Buffer {
   return keccak(a)
 }
 
@@ -254,7 +254,7 @@ export const keccak256 = function(a: any) {
  * @param {Buffer|Array|String|Number} a the input data
  * @return {Buffer}
  */
-export const sha256 = function(a: any) {
+export const sha256 = function(a: any): Buffer {
   a = toBuffer(a)
   return createHash('sha256')
     .update(a)
@@ -267,7 +267,7 @@ export const sha256 = function(a: any) {
  * @param {Boolean} padded whether it should be padded to 256 bits or not
  * @return {Buffer}
  */
-export const ripemd160 = function(a: any, padded: boolean) {
+export const ripemd160 = function(a: any, padded: boolean): Buffer {
   a = toBuffer(a)
   const hash = createHash('rmd160')
     .update(a)
@@ -284,7 +284,7 @@ export const ripemd160 = function(a: any, padded: boolean) {
  * @param {Buffer|Array|String|Number} a the input data
  * @return {Buffer}
  */
-export const rlphash = function(a: any) {
+export const rlphash = function(a: any): Buffer {
   return keccak(rlp.encode(a))
 }
 
@@ -293,7 +293,7 @@ export const rlphash = function(a: any) {
  * @param {Buffer} privateKey
  * @return {Boolean}
  */
-export const isValidPrivate = function(privateKey: Buffer) {
+export const isValidPrivate = function(privateKey: Buffer): boolean {
   return secp256k1.privateKeyVerify(privateKey)
 }
 
@@ -304,7 +304,7 @@ export const isValidPrivate = function(privateKey: Buffer) {
  * @param {Boolean} [sanitize=false] Accept public keys in other formats
  * @return {Boolean}
  */
-export const isValidPublic = function(publicKey: Buffer, sanitize: boolean = false) {
+export const isValidPublic = function(publicKey: Buffer, sanitize: boolean = false): boolean {
   if (publicKey.length === 64) {
     // Convert to SEC1 for secp256k1
     return secp256k1.publicKeyVerify(Buffer.concat([Buffer.from([4]), publicKey]))
@@ -324,7 +324,7 @@ export const isValidPublic = function(publicKey: Buffer, sanitize: boolean = fal
  * @param {Boolean} [sanitize=false] Accept public keys in other formats
  * @return {Buffer}
  */
-export const pubToAddress = function(pubKey: Buffer, sanitize: boolean = false) {
+export const pubToAddress = function(pubKey: Buffer, sanitize: boolean = false): Buffer {
   pubKey = toBuffer(pubKey)
   if (sanitize && pubKey.length !== 64) {
     pubKey = secp256k1.publicKeyConvert(pubKey, false).slice(1)
@@ -359,14 +359,24 @@ export const importPublic = function(publicKey: Buffer): Buffer {
   return publicKey
 }
 
+export interface ECDSASignature {
+  v: number
+  r: Buffer
+  s: Buffer
+}
+
 /**
  * ECDSA sign
  * @param {Buffer} msgHash
  * @param {Buffer} privateKey
  * @param {Number} [chainId]
- * @return {Object}
+ * @return {ECDSASignature}
  */
-export const ecsign = function(msgHash: Buffer, privateKey: Buffer, chainId: number) {
+export const ecsign = function(
+  msgHash: Buffer,
+  privateKey: Buffer,
+  chainId: number,
+): ECDSASignature {
   const sig = secp256k1.sign(msgHash, privateKey)
   const recovery: number = sig.recovery
 
@@ -439,9 +449,9 @@ export const toRpcSig = function(v: number, r: Buffer, s: Buffer, chainId: numbe
  * Convert signature format of the `eth_sign` RPC method to signature parameters
  * NOTE: all because of a bug in geth: https://github.com/ethereum/go-ethereum/issues/2053
  * @param {String} sig
- * @return {Object}
+ * @return {ECDSASignature}
  */
-export const fromRpcSig = function(sig: string) {
+export const fromRpcSig = function(sig: string): ECDSASignature {
   const buf: Buffer = toBuffer(sig)
 
   // NOTE: with potential introduction of chainId this might need to be updated
@@ -760,10 +770,10 @@ export const defineProperties = function(self: any, fields: any, data: any) {
   }
 }
 
-function calculateSigRecovery(v: number, chainId: number) {
+function calculateSigRecovery(v: number, chainId: number): number {
   return chainId ? v - (2 * chainId + 35) : v - 27
 }
 
-function isValidSigRecovery(recovery: number) {
+function isValidSigRecovery(recovery: number): boolean {
   return recovery === 0 || recovery === 1
 }
