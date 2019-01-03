@@ -552,12 +552,16 @@ export const generateAddress = function(from: Buffer, nonce: Buffer): Buffer {
 
 /**
  * Generates an address for a contract created using CREATE2
- * @param {Buffer} from the address which is creating this new address
- * @param {Buffer} salt a salt
- * @param {Buffer} initCode the init code of the contract being created
+ * @param {Buffer|String} from the address which is creating this new address
+ * @param {Buffer|String} salt a salt
+ * @param {Buffer|String} initCode the init code of the contract being created
  * @return {Buffer}
  */
-export const generateAddress2 = function(from: Buffer, salt: Buffer, initCode: Buffer): Buffer {
+export const generateAddress2 = function(
+  from: Buffer | String,
+  salt: Buffer | String,
+  initCode: Buffer | String,
+): Buffer {
   from = toBuffer(from)
   salt = toBuffer(salt)
   initCode = toBuffer(initCode)
