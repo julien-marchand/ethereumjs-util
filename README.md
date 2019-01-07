@@ -11,7 +11,7 @@ A collection of utility functions for ethereum. It can be used in node.js or can
 
 # API
 
-[./docs/](./docs/index.md)
+[./docs/](./docs/README.md)
 
 Most of the string manipulation methods are provided by [ethjs-util](https://github.com/ethjs/ethjs-util)
 
