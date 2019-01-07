@@ -1,12 +1,35 @@
 import BN = require('bn.js')
+import rlp = require('rlp')
 const createKeccakHash = require('keccak')
 const secp256k1 = require('secp256k1')
 const assert = require('assert')
-const rlp = require('rlp')
 const createHash = require('create-hash')
 const Buffer = require('safe-buffer').Buffer
 const ethjsUtil = require('ethjs-util')
 Object.assign(exports, ethjsUtil)
+
+// Types
+export interface ECDSASignature {
+  v: number
+  r: Buffer
+  s: Buffer
+}
+
+export type BufferableArray = number[] | ArrayBuffer | SharedArrayBuffer
+
+export interface Arrayable {
+  toArray(): BufferableArray
+}
+
+export type Bufferable =
+  | Buffer
+  | string
+  | number
+  | null
+  | undefined
+  | BN
+  | BufferableArray
+  | Arrayable
 
 /**
  * the max integer that this VM can handle (a ```BN```)
@@ -106,26 +129,26 @@ export const zeroAddress = function(): string {
  * Left Pads an `Array` or `Buffer` with leading zeros till it has `length` bytes.
  * Or it truncates the beginning if it exceeds.
  * @method setLengthLeft
- * @param {Buffer|Array} msg the value to pad
+ * @param {Bufferable} msg the value to pad
  * @param {Number} length the number of bytes the output should be
  * @param {Boolean} [right=false] whether to start padding form the left or right
  * @return {Buffer|Array}
  */
-export const setLengthLeft = function(msg: any, length: number, right: boolean = false) {
+export const setLengthLeft = function(msg: Bufferable, length: number, right: boolean = false) {
   const buf = zeros(length)
-  msg = toBuffer(msg)
+  const msgBuf = toBuffer(msg)
   if (right) {
-    if (msg.length < length) {
-      msg.copy(buf)
+    if (msgBuf.length < length) {
+      msgBuf.copy(buf)
       return buf
     }
-    return msg.slice(0, length)
+    return msgBuf.slice(0, length)
   } else {
-    if (msg.length < length) {
-      msg.copy(buf, length - msg.length)
+    if (msgBuf.length < length) {
+      msgBuf.copy(buf, length - msgBuf.length)
       return buf
     }
-    return msg.slice(-length)
+    return msgBuf.slice(-length)
   }
 }
 export const setLength = setLengthLeft
@@ -133,11 +156,11 @@ export const setLength = setLengthLeft
 /**
  * Right Pads an `Array` or `Buffer` with leading zeros till it has `length` bytes.
  * Or it truncates the beginning if it exceeds.
- * @param {Buffer|Array} msg the value to pad
+ * @param {Bufferable} msg the value to pad
  * @param {Number} length the number of bytes the output should be
  * @return {Buffer|Array}
  */
-export const setLengthRight = function(msg: any, length: number) {
+export const setLengthRight = function(msg: Bufferable, length: number) {
   return setLength(msg, length, true)
 }
 
@@ -161,30 +184,34 @@ export const stripZeros = unpad
  * Attempts to turn a value into a `Buffer`. As input it supports `Buffer`, `String`, `Number`, null/undefined, `BN` and other objects with a `toArray()` method.
  * @param {*} v the value
  */
-export const toBuffer = function(v: any): Buffer {
-  if (!Buffer.isBuffer(v)) {
-    if (Array.isArray(v)) {
-      v = Buffer.from(v)
-    } else if (typeof v === 'string') {
-      if (ethjsUtil.isHexString(v)) {
-        v = Buffer.from(ethjsUtil.padToEven(ethjsUtil.stripHexPrefix(v)), 'hex')
-      } else {
-        v = Buffer.from(v)
-      }
-    } else if (typeof v === 'number') {
-      v = ethjsUtil.intToBuffer(v)
-    } else if (v === null || v === undefined) {
-      v = Buffer.allocUnsafe(0)
-    } else if (BN.isBN(v)) {
-      v = v.toArrayLike(Buffer)
-    } else if (v.toArray) {
-      // converts a BN to a Buffer
-      v = Buffer.from(v.toArray())
-    } else {
-      throw new Error('invalid type')
-    }
+export const toBuffer = function(v: Bufferable): Buffer {
+  if (Buffer.isBuffer(v)) {
+    return <Buffer>v
   }
-  return v
+
+  let buf: Buffer
+  if (Array.isArray(v)) {
+    buf = Buffer.from(v)
+  } else if (typeof v === 'string') {
+    if (ethjsUtil.isHexString(v)) {
+      buf = Buffer.from(ethjsUtil.padToEven(ethjsUtil.stripHexPrefix(v)), 'hex')
+    } else {
+      buf = Buffer.from(v)
+    }
+  } else if (typeof v === 'number') {
+    buf = ethjsUtil.intToBuffer(v)
+  } else if (v === null || v === undefined) {
+    buf = Buffer.allocUnsafe(0)
+  } else if (BN.isBN(v)) {
+    buf = v.toArrayLike(Buffer)
+  } else if ((<Arrayable>v).toArray) {
+    // converts a BN to a Buffer
+    buf = Buffer.from((<Arrayable>v).toArray())
+  } else {
+    throw new Error('invalid type')
+  }
+
+  return buf
 }
 
 /**
@@ -227,50 +254,50 @@ export const toUnsigned = function(num: BN): Buffer {
 
 /**
  * Creates Keccak hash of the input
- * @param {Buffer|Array|String|Number} a the input data
+ * @param {Bufferable} a the input data
  * @param {Number} [bits=256] the Keccak width
  * @return {Buffer}
  */
-export const keccak = function(a: any, bits: number = 256): Buffer {
-  a = toBuffer(a)
+export const keccak = function(a: Bufferable, bits: number = 256): Buffer {
+  const buf = toBuffer(a)
   if (!bits) bits = 256
 
   return createKeccakHash(`keccak${bits}`)
-    .update(a)
+    .update(buf)
     .digest()
 }
 
 /**
  * Creates Keccak-256 hash of the input, alias for keccak(a, 256)
- * @param {Buffer|Array|String|Number} a the input data
+ * @param {Bufferable} a the input data
  * @return {Buffer}
  */
-export const keccak256 = function(a: any): Buffer {
+export const keccak256 = function(a: Bufferable): Buffer {
   return keccak(a)
 }
 
 /**
  * Creates SHA256 hash of the input
- * @param {Buffer|Array|String|Number} a the input data
+ * @param {Bufferable} a the input data
  * @return {Buffer}
  */
-export const sha256 = function(a: any): Buffer {
-  a = toBuffer(a)
+export const sha256 = function(a: Bufferable): Buffer {
+  const buf = toBuffer(a)
   return createHash('sha256')
-    .update(a)
+    .update(buf)
     .digest()
 }
 
 /**
  * Creates RIPEMD160 hash of the input
- * @param {Buffer|Array|String|Number} a the input data
+ * @param {Bufferable} a the input data
  * @param {Boolean} padded whether it should be padded to 256 bits or not
  * @return {Buffer}
  */
-export const ripemd160 = function(a: any, padded: boolean): Buffer {
-  a = toBuffer(a)
+export const ripemd160 = function(a: Bufferable, padded: boolean): Buffer {
+  const buf = toBuffer(a)
   const hash = createHash('rmd160')
-    .update(a)
+    .update(buf)
     .digest()
   if (padded === true) {
     return setLength(hash, 32)
@@ -281,10 +308,10 @@ export const ripemd160 = function(a: any, padded: boolean): Buffer {
 
 /**
  * Creates SHA-3 hash of the RLP encoded version of the input
- * @param {Buffer|Array|String|Number} a the input data
+ * @param {Bufferable} a the input data
  * @return {Buffer}
  */
-export const rlphash = function(a: any): Buffer {
+export const rlphash = function(a: rlp.Input): Buffer {
   return keccak(rlp.encode(a))
 }
 
@@ -357,12 +384,6 @@ export const importPublic = function(publicKey: Buffer): Buffer {
     publicKey = secp256k1.publicKeyConvert(publicKey, false).slice(1)
   }
   return publicKey
-}
-
-export interface ECDSASignature {
-  v: number
-  r: Buffer
-  s: Buffer
 }
 
 /**
@@ -552,25 +573,25 @@ export const generateAddress = function(from: Buffer, nonce: Buffer): Buffer {
 
 /**
  * Generates an address for a contract created using CREATE2
- * @param {Buffer|String} from the address which is creating this new address
- * @param {Buffer|String} salt a salt
- * @param {Buffer|String} initCode the init code of the contract being created
+ * @param {Bufferable} from the address which is creating this new address
+ * @param {Bufferable} salt a salt
+ * @param {Bufferable} initCode the init code of the contract being created
  * @return {Buffer}
  */
 export const generateAddress2 = function(
-  from: Buffer | String,
-  salt: Buffer | String,
-  initCode: Buffer | String,
+  from: Bufferable,
+  salt: Bufferable,
+  initCode: Bufferable,
 ): Buffer {
-  from = toBuffer(from)
-  salt = toBuffer(salt)
-  initCode = toBuffer(initCode)
+  const fromBuf = toBuffer(from)
+  const saltBuf = toBuffer(salt)
+  const initCodeBuf = toBuffer(initCode)
 
-  assert(from.length === 20)
-  assert(salt.length === 32)
+  assert(fromBuf.length === 20)
+  assert(saltBuf.length === 32)
 
   const address = keccak256(
-    Buffer.concat([Buffer.from('ff', 'hex'), from, salt, keccak256(initCode)]),
+    Buffer.concat([Buffer.from('ff', 'hex'), fromBuf, saltBuf, keccak256(initCodeBuf)]),
   )
 
   return address.slice(-20)
