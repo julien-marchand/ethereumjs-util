@@ -129,12 +129,16 @@ export const zeroAddress = function(): string {
  * Left Pads an `Array` or `Buffer` with leading zeros till it has `length` bytes.
  * Or it truncates the beginning if it exceeds.
  * @method setLengthLeft
- * @param {Bufferable} msg the value to pad
+ * @param {Buffer|BufferableArray} msg the value to pad
  * @param {Number} length the number of bytes the output should be
  * @param {Boolean} [right=false] whether to start padding form the left or right
  * @return {Buffer|Array}
  */
-export const setLengthLeft = function(msg: Bufferable, length: number, right: boolean = false) {
+export const setLengthLeft = function(
+  msg: Buffer | BufferableArray,
+  length: number,
+  right: boolean = false,
+) {
   const buf = zeros(length)
   const msgBuf = toBuffer(msg)
   if (right) {
@@ -156,11 +160,11 @@ export const setLength = setLengthLeft
 /**
  * Right Pads an `Array` or `Buffer` with leading zeros till it has `length` bytes.
  * Or it truncates the beginning if it exceeds.
- * @param {Bufferable} msg the value to pad
+ * @param {Buffer|BufferableArray} msg the value to pad
  * @param {Number} length the number of bytes the output should be
  * @return {Buffer|Array}
  */
-export const setLengthRight = function(msg: Bufferable, length: number) {
+export const setLengthRight = function(msg: Buffer | BufferableArray, length: number) {
   return setLength(msg, length, true)
 }
 
@@ -308,7 +312,7 @@ export const ripemd160 = function(a: Bufferable, padded: boolean): Buffer {
 
 /**
  * Creates SHA-3 hash of the RLP encoded version of the input
- * @param {Bufferable} a the input data
+ * @param {rlp.Input} a the input data
  * @return {Buffer}
  */
 export const rlphash = function(a: rlp.Input): Buffer {
@@ -573,15 +577,15 @@ export const generateAddress = function(from: Buffer, nonce: Buffer): Buffer {
 
 /**
  * Generates an address for a contract created using CREATE2
- * @param {Bufferable} from the address which is creating this new address
- * @param {Bufferable} salt a salt
- * @param {Bufferable} initCode the init code of the contract being created
+ * @param {Buffer|String} from the address which is creating this new address
+ * @param {Buffer|String} salt a salt
+ * @param {Buffer|String} initCode the init code of the contract being created
  * @return {Buffer}
  */
 export const generateAddress2 = function(
-  from: Bufferable,
-  salt: Bufferable,
-  initCode: Bufferable,
+  from: Buffer | string,
+  salt: Buffer | string,
+  initCode: Buffer | string,
 ): Buffer {
   const fromBuf = toBuffer(from)
   const saltBuf = toBuffer(salt)

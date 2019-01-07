@@ -5,7 +5,13 @@
 
 ### Interfaces
 
+* [Arrayable](interfaces/arrayable.md)
 * [ECDSASignature](interfaces/ecdsasignature.md)
+
+### Type aliases
+
+* [Bufferable](#bufferable)
+* [BufferableArray](#bufferablearray)
 
 ### Variables
 
@@ -23,7 +29,6 @@
 * [createKeccakHash](#createkeccakhash)
 * [ethjsUtil](#ethjsutil)
 * [publicToAddress](#publictoaddress)
-* [rlp](#rlp)
 * [secp256k1](#secp256k1)
 * [setLength](#setlength)
 * [stripZeros](#stripzeros)
@@ -72,6 +77,27 @@
 
 ---
 
+## Type aliases
+
+<a id="bufferable"></a>
+
+###  Bufferable
+
+**Ƭ Bufferable**: *`Buffer` | `string` | `number` | `null` | `undefined` | `BN` | [BufferableArray](#bufferablearray) | [Arrayable](interfaces/arrayable.md)*
+
+*Defined in [index.ts:24](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L24)*
+
+___
+<a id="bufferablearray"></a>
+
+###  BufferableArray
+
+**Ƭ BufferableArray**: *`number`[] | `ArrayBuffer` | `SharedArrayBuffer`*
+
+*Defined in [index.ts:18](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L18)*
+
+___
+
 ## Variables
 
 <a id="buffer"></a>
@@ -80,7 +106,7 @@
 
 **● Buffer**: *`any`* =  require('safe-buffer').Buffer
 
-*Defined in [index.ts:7](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L7)*
+*Defined in [index.ts:7](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L7)*
 
 ___
 <a id="keccak256_null"></a>
@@ -89,7 +115,7 @@ ___
 
 **● KECCAK256_NULL**: *`any`* =  Buffer.from(KECCAK256_NULL_S, 'hex')
 
-*Defined in [index.ts:39](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L39)*
+*Defined in [index.ts:62](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L62)*
 
 Keccak-256 hash of null (a `Buffer`)
 *__var__*: {Buffer} KECCAK256\_NULL
@@ -101,7 +127,7 @@ ___
 
 **● KECCAK256_NULL_S**: *"c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"* = "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
 
-*Defined in [index.ts:33](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L33)*
+*Defined in [index.ts:56](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L56)*
 
 Keccak-256 hash of null (a `String`)
 *__var__*: {String} KECCAK256\_NULL\_S
@@ -113,7 +139,7 @@ ___
 
 **● KECCAK256_RLP**: *`any`* =  Buffer.from(KECCAK256_RLP_S, 'hex')
 
-*Defined in [index.ts:64](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L64)*
+*Defined in [index.ts:87](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L87)*
 
 Keccak-256 hash of the RLP of null (a `Buffer`)
 *__var__*: {Buffer} KECCAK256\_RLP
@@ -125,7 +151,7 @@ ___
 
 **● KECCAK256_RLP_ARRAY**: *`any`* =  Buffer.from(KECCAK256_RLP_ARRAY_S, 'hex')
 
-*Defined in [index.ts:52](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L52)*
+*Defined in [index.ts:75](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L75)*
 
 Keccak-256 of an RLP of an empty array (a `Buffer`)
 *__var__*: {Buffer} KECCAK256\_RLP\_ARRAY
@@ -137,7 +163,7 @@ ___
 
 **● KECCAK256_RLP_ARRAY_S**: *"1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347"* = "1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347"
 
-*Defined in [index.ts:45](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L45)*
+*Defined in [index.ts:68](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L68)*
 
 Keccak-256 of an RLP of an empty array (a `String`)
 *__var__*: {String} KECCAK256\_RLP\_ARRAY\_S
@@ -149,7 +175,7 @@ ___
 
 **● KECCAK256_RLP_S**: *"56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421"* = "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421"
 
-*Defined in [index.ts:58](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L58)*
+*Defined in [index.ts:81](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L81)*
 
 Keccak-256 hash of the RLP of null (a `String`)
 *__var__*: {String} KECCAK256\_RLP\_S
@@ -164,7 +190,7 @@ ___
   16,
 )
 
-*Defined in [index.ts:15](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L15)*
+*Defined in [index.ts:38](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L38)*
 
 the max integer that this VM can handle (a `BN`)
 *__var__*: {BN} MAX\_INTEGER
@@ -179,7 +205,7 @@ ___
   16,
 )
 
-*Defined in [index.ts:24](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L24)*
+*Defined in [index.ts:47](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L47)*
 
 2^256 (a `BN`)
 *__var__*: {BN} TWO\_POW256
@@ -191,7 +217,7 @@ ___
 
 **● assert**: *`any`* =  require('assert')
 
-*Defined in [index.ts:4](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L4)*
+*Defined in [index.ts:5](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L5)*
 
 ___
 <a id="createhash"></a>
@@ -200,7 +226,7 @@ ___
 
 **● createHash**: *`any`* =  require('create-hash')
 
-*Defined in [index.ts:6](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L6)*
+*Defined in [index.ts:6](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L6)*
 
 ___
 <a id="createkeccakhash"></a>
@@ -209,7 +235,7 @@ ___
 
 **● createKeccakHash**: *`any`* =  require('keccak')
 
-*Defined in [index.ts:2](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L2)*
+*Defined in [index.ts:3](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L3)*
 
 ___
 <a id="ethjsutil"></a>
@@ -218,7 +244,7 @@ ___
 
 **● ethjsUtil**: *`any`* =  require('ethjs-util')
 
-*Defined in [index.ts:8](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L8)*
+*Defined in [index.ts:8](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L8)*
 
 ___
 <a id="publictoaddress"></a>
@@ -227,16 +253,7 @@ ___
 
 **● publicToAddress**: *[pubToAddress]()* =  pubToAddress
 
-*Defined in [index.ts:336](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L336)*
-
-___
-<a id="rlp"></a>
-
-### `<Const>` rlp
-
-**● rlp**: *`any`* =  require('rlp')
-
-*Defined in [index.ts:5](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L5)*
+*Defined in [index.ts:367](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L367)*
 
 ___
 <a id="secp256k1"></a>
@@ -245,7 +262,7 @@ ___
 
 **● secp256k1**: *`any`* =  require('secp256k1')
 
-*Defined in [index.ts:3](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L3)*
+*Defined in [index.ts:4](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L4)*
 
 ___
 <a id="setlength"></a>
@@ -254,7 +271,7 @@ ___
 
 **● setLength**: *[setLengthLeft]()* =  setLengthLeft
 
-*Defined in [index.ts:131](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L131)*
+*Defined in [index.ts:158](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L158)*
 
 ___
 <a id="stripzeros"></a>
@@ -263,7 +280,7 @@ ___
 
 **● stripZeros**: *[unpad]()* =  unpad
 
-*Defined in [index.ts:158](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L158)*
+*Defined in [index.ts:185](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L185)*
 
 ___
 
@@ -275,7 +292,7 @@ ___
 
 ▸ **addHexPrefix**(str: *`string`*): `string`
 
-*Defined in [index.ts:594](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L594)*
+*Defined in [index.ts:619](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L619)*
 
 Adds "0x" to a given `String` if it does not already start with "0x"
 
@@ -294,7 +311,7 @@ ___
 
 ▸ **baToJSON**(ba: *`any`*): `undefined` | `string` | `any`[]
 
-*Defined in [index.ts:653](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L653)*
+*Defined in [index.ts:678](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L678)*
 
 Converts a `Buffer` or `Array` to JSON
 
@@ -313,7 +330,7 @@ ___
 
 ▸ **bufferToHex**(buf: *`Buffer`*): `string`
 
-*Defined in [index.ts:205](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L205)*
+*Defined in [index.ts:236](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L236)*
 
 Converts a `Buffer` into a hex `String`
 
@@ -332,7 +349,7 @@ ___
 
 ▸ **bufferToInt**(buf: *`Buffer`*): `number`
 
-*Defined in [index.ts:196](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L196)*
+*Defined in [index.ts:227](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L227)*
 
 Converts a `Buffer` to a `Number`
 
@@ -351,7 +368,7 @@ ___
 
 ▸ **calculateSigRecovery**(v: *`number`*, chainId: *`number`*): `number`
 
-*Defined in [index.ts:777](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L777)*
+*Defined in [index.ts:802](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L802)*
 
 **Parameters:**
 
@@ -369,7 +386,7 @@ ___
 
 ▸ **defineProperties**(self: *`any`*, fields: *`any`*, data: *`any`*): `void`
 
-*Defined in [index.ts:675](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L675)*
+*Defined in [index.ts:700](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L700)*
 
 Defines properties on a `Object`. It make the assumption that underlying data is binary.
 
@@ -390,7 +407,7 @@ ___
 
 ▸ **ecrecover**(msgHash: *`Buffer`*, v: *`number`*, r: *`Buffer`*, s: *`Buffer`*, chainId: *`number`*): `Buffer`
 
-*Defined in [index.ts:414](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L414)*
+*Defined in [index.ts:439](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L439)*
 
 ECDSA public key recovery from signature
 
@@ -414,7 +431,7 @@ ___
 
 ▸ **ecsign**(msgHash: *`Buffer`*, privateKey: *`Buffer`*, chainId: *`number`*): [ECDSASignature](interfaces/ecdsasignature.md)
 
-*Defined in [index.ts:375](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L375)*
+*Defined in [index.ts:400](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L400)*
 
 ECDSA sign
 
@@ -435,7 +452,7 @@ ___
 
 ▸ **fromRpcSig**(sig: *`string`*): [ECDSASignature](interfaces/ecdsasignature.md)
 
-*Defined in [index.ts:454](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L454)*
+*Defined in [index.ts:479](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L479)*
 
 Convert signature format of the `eth_sign` RPC method to signature parameters NOTE: all because of a bug in geth: [https://github.com/ethereum/go-ethereum/issues/2053](https://github.com/ethereum/go-ethereum/issues/2053)
 
@@ -454,7 +471,7 @@ ___
 
 ▸ **fromSigned**(num: *`Buffer`*): `BN`
 
-*Defined in [index.ts:215](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L215)*
+*Defined in [index.ts:246](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L246)*
 
 Interprets a `Buffer` as a signed integer and returns a `BN`. Assumes 256-bit numbers.
 
@@ -473,7 +490,7 @@ ___
 
 ▸ **generateAddress**(from: *`Buffer`*, nonce: *`Buffer`*): `Buffer`
 
-*Defined in [index.ts:540](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L540)*
+*Defined in [index.ts:565](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L565)*
 
 Generates an address of a newly created contract
 
@@ -491,9 +508,9 @@ ___
 
 ### `<Const>` generateAddress2
 
-▸ **generateAddress2**(from: *`Buffer` | `String`*, salt: *`Buffer` | `String`*, initCode: *`Buffer` | `String`*): `Buffer`
+▸ **generateAddress2**(from: *`Buffer` | `string`*, salt: *`Buffer` | `string`*, initCode: *`Buffer` | `string`*): `Buffer`
 
-*Defined in [index.ts:560](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L560)*
+*Defined in [index.ts:585](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L585)*
 
 Generates an address for a contract created using CREATE2
 
@@ -501,9 +518,9 @@ Generates an address for a contract created using CREATE2
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| from | `Buffer` | `String` |  the address which is creating this new address |
-| salt | `Buffer` | `String` |  a salt |
-| initCode | `Buffer` | `String` |  the init code of the contract being created |
+| from | `Buffer` | `string` |  the address which is creating this new address |
+| salt | `Buffer` | `string` |  a salt |
+| initCode | `Buffer` | `string` |  the init code of the contract being created |
 
 **Returns:** `Buffer`
 
@@ -514,7 +531,7 @@ ___
 
 ▸ **hashPersonalMessage**(message: *`any`*): `Buffer`
 
-*Defined in [index.ts:400](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L400)*
+*Defined in [index.ts:425](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L425)*
 
 Returns the keccak-256 hash of `message`, prefixed with the header used by the `eth_sign` RPC call. The output of this function can be fed into `ecsign` to produce the same signature as the `eth_sign` call for a given `message`, or fed to `ecrecover` along with a signature to recover the public key used to produce the signature.
 
@@ -534,7 +551,7 @@ ___
 
 ▸ **importPublic**(publicKey: *`Buffer`*): `Buffer`
 
-*Defined in [index.ts:354](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L354)*
+*Defined in [index.ts:385](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L385)*
 
 Converts a public key to the Ethereum format.
 
@@ -553,7 +570,7 @@ ___
 
 ▸ **isPrecompiled**(address: *`Buffer` | `string`*): `boolean`
 
-*Defined in [index.ts:584](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L584)*
+*Defined in [index.ts:609](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L609)*
 
 Returns true if the supplied address belongs to a precompiled account (Byzantium)
 
@@ -572,7 +589,7 @@ ___
 
 ▸ **isValidAddress**(address: *`string`*): `boolean`
 
-*Defined in [index.ts:489](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L489)*
+*Defined in [index.ts:514](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L514)*
 
 Checks if the address is a valid. Accepts checksummed addresses too
 
@@ -591,7 +608,7 @@ ___
 
 ▸ **isValidChecksumAddress**(address: *`string`*): `boolean`
 
-*Defined in [index.ts:530](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L530)*
+*Defined in [index.ts:555](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L555)*
 
 Checks if the address is a valid checksummed address
 
@@ -610,7 +627,7 @@ ___
 
 ▸ **isValidPrivate**(privateKey: *`Buffer`*): `boolean`
 
-*Defined in [index.ts:296](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L296)*
+*Defined in [index.ts:327](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L327)*
 
 Checks if the private key satisfies the rules of the curve secp256k1.
 
@@ -629,7 +646,7 @@ ___
 
 ▸ **isValidPublic**(publicKey: *`Buffer`*, sanitize?: *`boolean`*): `boolean`
 
-*Defined in [index.ts:307](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L307)*
+*Defined in [index.ts:338](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L338)*
 
 Checks if the public key satisfies the rules of the curve secp256k1 and the requirements of Ethereum.
 
@@ -649,7 +666,7 @@ ___
 
 ▸ **isValidSigRecovery**(recovery: *`number`*): `boolean`
 
-*Defined in [index.ts:781](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L781)*
+*Defined in [index.ts:806](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L806)*
 
 **Parameters:**
 
@@ -666,7 +683,7 @@ ___
 
 ▸ **isValidSignature**(v: *`number`*, r: *`Buffer`*, s: *`Buffer`*, homestead?: *`boolean`*, chainId: *`number`*): `boolean`
 
-*Defined in [index.ts:613](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L613)*
+*Defined in [index.ts:638](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L638)*
 
 Validate ECDSA signature
 
@@ -689,7 +706,7 @@ ___
 
 ▸ **isZeroAddress**(address: *`string`*): `boolean`
 
-*Defined in [index.ts:499](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L499)*
+*Defined in [index.ts:524](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L524)*
 
 Checks if a given address is a zero address
 
@@ -706,9 +723,9 @@ ___
 
 ### `<Const>` keccak
 
-▸ **keccak**(a: *`any`*, bits?: *`number`*): `Buffer`
+▸ **keccak**(a: *[Bufferable](#bufferable)*, bits?: *`number`*): `Buffer`
 
-*Defined in [index.ts:234](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L234)*
+*Defined in [index.ts:265](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L265)*
 
 Creates Keccak hash of the input
 
@@ -716,7 +733,7 @@ Creates Keccak hash of the input
 
 | Name | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| a | `any` | - |  the input data |
+| a | [Bufferable](#bufferable) | - |  the input data |
 | `Default value` bits | `number` | 256 |
 
 **Returns:** `Buffer`
@@ -726,9 +743,9 @@ ___
 
 ### `<Const>` keccak256
 
-▸ **keccak256**(a: *`any`*): `Buffer`
+▸ **keccak256**(a: *[Bufferable](#bufferable)*): `Buffer`
 
-*Defined in [index.ts:248](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L248)*
+*Defined in [index.ts:279](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L279)*
 
 Creates Keccak-256 hash of the input, alias for keccak(a, 256)
 
@@ -736,7 +753,7 @@ Creates Keccak-256 hash of the input, alias for keccak(a, 256)
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| a | `any` |  the input data |
+| a | [Bufferable](#bufferable) |  the input data |
 
 **Returns:** `Buffer`
 
@@ -747,7 +764,7 @@ ___
 
 ▸ **privateToAddress**(privateKey: *`Buffer`*): `Buffer`
 
-*Defined in [index.ts:480](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L480)*
+*Defined in [index.ts:505](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L505)*
 
 Returns the ethereum address of a given private key
 
@@ -766,7 +783,7 @@ ___
 
 ▸ **privateToPublic**(privateKey: *`Buffer`*): `Buffer`
 
-*Defined in [index.ts:343](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L343)*
+*Defined in [index.ts:374](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L374)*
 
 Returns the ethereum public key of a given private key
 
@@ -785,7 +802,7 @@ ___
 
 ▸ **pubToAddress**(pubKey: *`Buffer`*, sanitize?: *`boolean`*): `Buffer`
 
-*Defined in [index.ts:327](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L327)*
+*Defined in [index.ts:358](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L358)*
 
 Returns the ethereum address of a given public key. Accepts "Ethereum public keys" and SEC1 encoded keys.
 
@@ -803,9 +820,9 @@ ___
 
 ### `<Const>` ripemd160
 
-▸ **ripemd160**(a: *`any`*, padded: *`boolean`*): `Buffer`
+▸ **ripemd160**(a: *[Bufferable](#bufferable)*, padded: *`boolean`*): `Buffer`
 
-*Defined in [index.ts:270](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L270)*
+*Defined in [index.ts:301](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L301)*
 
 Creates RIPEMD160 hash of the input
 
@@ -813,7 +830,7 @@ Creates RIPEMD160 hash of the input
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| a | `any` |  the input data |
+| a | [Bufferable](#bufferable) |  the input data |
 | padded | `boolean` |  whether it should be padded to 256 bits or not |
 
 **Returns:** `Buffer`
@@ -823,9 +840,9 @@ ___
 
 ### `<Const>` rlphash
 
-▸ **rlphash**(a: *`any`*): `Buffer`
+▸ **rlphash**(a: *`rlp.Input`*): `Buffer`
 
-*Defined in [index.ts:287](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L287)*
+*Defined in [index.ts:318](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L318)*
 
 Creates SHA-3 hash of the RLP encoded version of the input
 
@@ -833,7 +850,7 @@ Creates SHA-3 hash of the RLP encoded version of the input
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| a | `any` |  the input data |
+| a | `rlp.Input` |  the input data |
 
 **Returns:** `Buffer`
 
@@ -842,9 +859,9 @@ ___
 
 ### `<Const>` setLengthLeft
 
-▸ **setLengthLeft**(msg: *`any`*, length: *`number`*, right?: *`boolean`*): `any`
+▸ **setLengthLeft**(msg: *`Buffer` | [BufferableArray](#bufferablearray)*, length: *`number`*, right?: *`boolean`*): `Buffer`
 
-*Defined in [index.ts:114](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L114)*
+*Defined in [index.ts:137](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L137)*
 
 Left Pads an `Array` or `Buffer` with leading zeros till it has `length` bytes. Or it truncates the beginning if it exceeds.
 
@@ -852,20 +869,20 @@ Left Pads an `Array` or `Buffer` with leading zeros till it has `length` bytes. 
 
 | Name | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| msg | `any` | - |  the value to pad |
+| msg | `Buffer` | [BufferableArray](#bufferablearray) | - |  the value to pad |
 | length | `number` | - |  the number of bytes the output should be |
 | `Default value` right | `boolean` | false |
 
-**Returns:** `any`
+**Returns:** `Buffer`
 
 ___
 <a id="setlengthright"></a>
 
 ### `<Const>` setLengthRight
 
-▸ **setLengthRight**(msg: *`any`*, length: *`number`*): `any`
+▸ **setLengthRight**(msg: *`Buffer` | [BufferableArray](#bufferablearray)*, length: *`number`*): `Buffer`
 
-*Defined in [index.ts:140](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L140)*
+*Defined in [index.ts:167](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L167)*
 
 Right Pads an `Array` or `Buffer` with leading zeros till it has `length` bytes. Or it truncates the beginning if it exceeds.
 
@@ -873,19 +890,19 @@ Right Pads an `Array` or `Buffer` with leading zeros till it has `length` bytes.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| msg | `any` |  the value to pad |
+| msg | `Buffer` | [BufferableArray](#bufferablearray) |  the value to pad |
 | length | `number` |  the number of bytes the output should be |
 
-**Returns:** `any`
+**Returns:** `Buffer`
 
 ___
 <a id="sha256"></a>
 
 ### `<Const>` sha256
 
-▸ **sha256**(a: *`any`*): `Buffer`
+▸ **sha256**(a: *[Bufferable](#bufferable)*): `Buffer`
 
-*Defined in [index.ts:257](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L257)*
+*Defined in [index.ts:288](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L288)*
 
 Creates SHA256 hash of the input
 
@@ -893,7 +910,7 @@ Creates SHA256 hash of the input
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| a | `any` |  the input data |
+| a | [Bufferable](#bufferable) |  the input data |
 
 **Returns:** `Buffer`
 
@@ -902,9 +919,9 @@ ___
 
 ### `<Const>` toBuffer
 
-▸ **toBuffer**(v: *`any`*): `Buffer`
+▸ **toBuffer**(v: *[Bufferable](#bufferable)*): `Buffer`
 
-*Defined in [index.ts:164](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L164)*
+*Defined in [index.ts:191](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L191)*
 
 Attempts to turn a value into a `Buffer`. As input it supports `Buffer`, `String`, `Number`, null/undefined, `BN` and other objects with a `toArray()` method.
 
@@ -912,7 +929,7 @@ Attempts to turn a value into a `Buffer`. As input it supports `Buffer`, `String
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| v | `any` |  the value |
+| v | [Bufferable](#bufferable) |  the value |
 
 **Returns:** `Buffer`
 
@@ -923,7 +940,7 @@ ___
 
 ▸ **toChecksumAddress**(address: *`string`*): `string`
 
-*Defined in [index.ts:509](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L509)*
+*Defined in [index.ts:534](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L534)*
 
 Returns a checksummed address
 
@@ -942,7 +959,7 @@ ___
 
 ▸ **toRpcSig**(v: *`number`*, r: *`Buffer`*, s: *`Buffer`*, chainId: *`number`*): `string`
 
-*Defined in [index.ts:438](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L438)*
+*Defined in [index.ts:463](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L463)*
 
 Convert signature parameters into the format of `eth_sign` RPC method
 
@@ -965,7 +982,7 @@ ___
 
 ▸ **toUnsigned**(num: *`BN`*): `Buffer`
 
-*Defined in [index.ts:224](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L224)*
+*Defined in [index.ts:255](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L255)*
 
 Converts a `BN` to an unsigned integer and returns it as a `Buffer`. Assumes 256-bit numbers.
 
@@ -984,7 +1001,7 @@ ___
 
 ▸ **unpad**(a: *`any`*): `any`
 
-*Defined in [index.ts:149](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L149)*
+*Defined in [index.ts:176](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L176)*
 
 Trims leading zeros from a `Buffer` or an `Array`
 
@@ -1003,7 +1020,7 @@ ___
 
 ▸ **zeroAddress**(): `string`
 
-*Defined in [index.ts:99](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L99)*
+*Defined in [index.ts:122](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L122)*
 
 Returns a zero address
 
@@ -1016,7 +1033,7 @@ ___
 
 ▸ **zeros**(bytes: *`number`*): `Buffer`
 
-*Defined in [index.ts:90](https://github.com/ethereumjs/ethereumjs-util/blob/6141487/src/index.ts#L90)*
+*Defined in [index.ts:113](https://github.com/ethereumjs/ethereumjs-util/blob/4934c75/src/index.ts#L113)*
 
 Returns a buffer filled with 0s
 
