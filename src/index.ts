@@ -8,28 +8,11 @@ const Buffer = require('safe-buffer').Buffer
 const ethjsUtil = require('ethjs-util')
 Object.assign(exports, ethjsUtil)
 
-// Types
 export interface ECDSASignature {
   v: number
   r: Buffer
   s: Buffer
 }
-
-export type BufferableArray = number[] | ArrayBuffer | SharedArrayBuffer
-
-export interface Arrayable {
-  toArray(): BufferableArray
-}
-
-export type Bufferable =
-  | Buffer
-  | string
-  | number
-  | null
-  | undefined
-  | BN
-  | BufferableArray
-  | Arrayable
 
 /**
  * The max integer that this VM can handle
@@ -115,16 +98,12 @@ export const zeroAddress = function(): string {
 /**
  * Left Pads an `Array` or `Buffer` with leading zeros till it has `length` bytes.
  * Or it truncates the beginning if it exceeds.
- * @param msg the value to pad
+ * @param msg the value to pad (Buffer|Array)
  * @param length the number of bytes the output should be
  * @param right whether to start padding form the left or right
- * @return {Buffer|Array}
+ * @return (Buffer|Array)
  */
-export const setLengthLeft = function(
-  msg: Buffer | BufferableArray,
-  length: number,
-  right: boolean = false,
-) {
+export const setLengthLeft = function(msg: any, length: number, right: boolean = false) {
   const buf = zeros(length)
   const msgBuf = toBuffer(msg)
   if (right) {
@@ -146,18 +125,18 @@ export const setLength = setLengthLeft
 /**
  * Right Pads an `Array` or `Buffer` with leading zeros till it has `length` bytes.
  * Or it truncates the beginning if it exceeds.
- * @param msg the value to pad
+ * @param msg the value to pad (Buffer|Array)
  * @param length the number of bytes the output should be
- * @return {Buffer|Array}
+ * @return (Buffer|Array)
  */
-export const setLengthRight = function(msg: Buffer | BufferableArray, length: number) {
+export const setLengthRight = function(msg: any, length: number) {
   return setLength(msg, length, true)
 }
 
 /**
  * Trims leading zeros from a `Buffer` or an `Array`.
- * @param {Buffer|Array|String} a
- * @return {Buffer|Array|String}
+ * @param a (Buffer|Array|String)
+ * @return (Buffer|Array|String)
  */
 export const unpad = function(a: any) {
   a = ethjsUtil.stripHexPrefix(a)
@@ -174,34 +153,30 @@ export const stripZeros = unpad
  * Attempts to turn a value into a `Buffer`. As input it supports `Buffer`, `String`, `Number`, null/undefined, `BN` and other objects with a `toArray()` method.
  * @param v the value
  */
-export const toBuffer = function(v: Bufferable): Buffer {
-  if (Buffer.isBuffer(v)) {
-    return <Buffer>v
-  }
-
-  let buf: Buffer
-  if (Array.isArray(v)) {
-    buf = Buffer.from(v)
-  } else if (typeof v === 'string') {
-    if (ethjsUtil.isHexString(v)) {
-      buf = Buffer.from(ethjsUtil.padToEven(ethjsUtil.stripHexPrefix(v)), 'hex')
+export const toBuffer = function(v: any): Buffer {
+  if (!Buffer.isBuffer(v)) {
+    if (Array.isArray(v)) {
+      v = Buffer.from(v)
+    } else if (typeof v === 'string') {
+      if (exports.isHexString(v)) {
+        v = Buffer.from(exports.padToEven(exports.stripHexPrefix(v)), 'hex')
+      } else {
+        v = Buffer.from(v)
+      }
+    } else if (typeof v === 'number') {
+      v = exports.intToBuffer(v)
+    } else if (v === null || v === undefined) {
+      v = Buffer.allocUnsafe(0)
+    } else if (BN.isBN(v)) {
+      v = v.toArrayLike(Buffer)
+    } else if (v.toArray) {
+      // converts a BN to a Buffer
+      v = Buffer.from(v.toArray())
     } else {
-      buf = Buffer.from(v)
+      throw new Error('invalid type')
     }
-  } else if (typeof v === 'number') {
-    buf = ethjsUtil.intToBuffer(v)
-  } else if (v === null || v === undefined) {
-    buf = Buffer.allocUnsafe(0)
-  } else if (BN.isBN(v)) {
-    buf = v.toArrayLike(Buffer)
-  } else if ((<Arrayable>v).toArray) {
-    // converts a BN to a Buffer
-    buf = Buffer.from((<Arrayable>v).toArray())
-  } else {
-    throw new Error('invalid type')
   }
-
-  return buf
+  return v
 }
 
 /**
@@ -240,10 +215,10 @@ export const toUnsigned = function(num: BN): Buffer {
 
 /**
  * Creates Keccak hash of the input
- * @param a The input data
+ * @param a The input data (Buffer|Array|String|Number)
  * @param bits The Keccak width
  */
-export const keccak = function(a: Bufferable, bits: number = 256): Buffer {
+export const keccak = function(a: any, bits: number = 256): Buffer {
   const buf = toBuffer(a)
   if (!bits) bits = 256
 
@@ -254,17 +229,17 @@ export const keccak = function(a: Bufferable, bits: number = 256): Buffer {
 
 /**
  * Creates Keccak-256 hash of the input, alias for keccak(a, 256).
- * @param a The input data
+ * @param a The input data (Buffer|Array|String|Number)
  */
-export const keccak256 = function(a: Bufferable): Buffer {
+export const keccak256 = function(a: any): Buffer {
   return keccak(a)
 }
 
 /**
  * Creates SHA256 hash of the input.
- * @param a The input data
+ * @param a The input data (Buffer|Array|String|Number)
  */
-export const sha256 = function(a: Bufferable): Buffer {
+export const sha256 = function(a: any): Buffer {
   const buf = toBuffer(a)
   return createHash('sha256')
     .update(buf)
@@ -273,10 +248,10 @@ export const sha256 = function(a: Bufferable): Buffer {
 
 /**
  * Creates RIPEMD160 hash of the input.
- * @param a The input data
+ * @param a The input data (Buffer|Array|String|Number)
  * @param padded Whether it should be padded to 256 bits or not
  */
-export const ripemd160 = function(a: Bufferable, padded: boolean): Buffer {
+export const ripemd160 = function(a: any, padded: boolean): Buffer {
   const buf = toBuffer(a)
   const hash = createHash('rmd160')
     .update(buf)
@@ -602,8 +577,8 @@ export const isValidSignature = function(
 
 /**
  * Converts a `Buffer` or `Array` to JSON.
- * @param {Buffer|Array} ba
- * @return {Array|String|null}
+ * @param ba (Buffer|Array)
+ * @return (Array|String|null)
  */
 export const baToJSON = function(ba: any) {
   if (Buffer.isBuffer(ba)) {
@@ -619,13 +594,13 @@ export const baToJSON = function(ba: any) {
 
 /**
  * Defines properties on a `Object`. It make the assumption that underlying data is binary.
- * @param {Object} self the `Object` to define properties on
- * @param {Array} fields an array fields to define. Fields can contain:
+ * @param self the `Object` to define properties on
+ * @param fields an array fields to define. Fields can contain:
  * * `name` - the name of the properties
  * * `length` - the number of bytes the field can have
  * * `allowLess` - if the field can be less than the length
  * * `allowEmpty`
- * @param {*} data data to be validated against the definitions
+ * @param data data to be validated against the definitions
  */
 export const defineProperties = function(self: any, fields: any, data: any) {
   self.raw = []
